@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PACQ AI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .chat-container {
+            width: 500px;
+            height: 600px;
+            border: 1px solid black;
+            margin: 50px auto;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .user-message {
+            background-color: #add8e6;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .bot-message {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>PACQ AI</h1>
+    <div class="chat-container" id="chat-container"></div>
+    <input type="text" id="user-input" placeholder="Type your query...">
+    <button onclick="sendQuery()">Send</button>
+    <button onclick="clearChat()">Clear Chat</button>
+    <script>
+        const chatContainer = document.getElementById('chat-container');
+        const userInput = document.getElementById('user-input');
+        const knowledgeBase = {
+            "hello": "Hello! How can I assist you today?",
+            "how are you?": "I'm doing well, thank you for asking!",
+            "what is your purpose?": "My purpose is to assist and provide spiritual informations to users.",
+            "what is your name?": "I'm PACQ AI.",
+            "what is sin?": "Sin is doing your own will.",
+            "what is serpentseed?": "Serpentseed is spiritual d.n.a of Satan,Lucifer the Devil that camouflaging in our will or spirit of disobedience to the Fathers Will that we inherit from our first parents Adam and Eve when they disobeyed Gods command in the Garden of Eden.",
+            "what is salvation?": "Salvation is total coming back to the Will of God by Repentance.",
+            "what is repentance?": "Repentance is surrendering our own will our serpentseed and made an agreement to God that says Father from now on not my will but your Will be done in my life my heart is fixed and my mind is made up I will follow Your Will no matter what.",
+            "what is righteousseed?": "Righteousseed is spiritual d.n.a of God or Spirit of Obedience to the Fathers Will.",
+            "what is the three components of man?": "The Three Components of Man is body connection to the ground where it belongs,soul connection to the surroundings and our relatives by our five senses sense of sight,hear,smell,taste and pain and Spirit connection to the one created us it is coming from the Law or Word of God.",
+            "what is tithes?": "Tithes is tenth percent of your harvest or your income in a week it is command of God to give it.If you will not give it you will be called a thief.It symbolize the land where you sown your seeds or offering.Example:P1000 the tithes is P100.",
+            "what is offering?": "Offering is the remaining ninty percent of your harvest or your income in a week.It is out of your love to give it.It symbolize the seeds that you sown to the land or tithes.Example:P900 of P1000 it is out of your love to give it.",
+            "where is the place shall you give tithes and offerings?": "The Place where the tithes and offerings shall you give is where the name of the Lord dwells in the Kingdom Nation to Pastor Apollo C. Quiboloy.",
+            "what is the image of god in man?": "The Image of God in Man is his freedom of choice.",
+            "who is the createdson of god?": "The Created Son of God is Adam.",
+            "what is the mission of the createdson of god?": "The Mission of the Created Son of God is to became the dwelling place of God where God dwells and to have dominion over the Fathers Creation.",
+            "who is the begotten son of god?": "The Begotten Son of God is JesusChrist.",
+            "what is the mission of the begotten son of god?": "The Mission of the Begotten Son of God is to redeem back what was lost by our first parents Adam and Eve by disobedience the Sonship and the Kingship from the hands of usurper Satan,Lucifer the Devil.",
+            "who is the appointed son of god?": "The Appointed Son of God is Pastor Apollo C. Quiboloy.",
+            "what is the mission of the appointed son of god?": "The Mission of the Appointed Son of God is to inherit all things from the Father the Sonship and the Kingship that was lost by our first parents Adam and Eve by disobedience and redeem back by our Almighty Father our Lord JesusChrist the Creator of All from the hands of usurper Satan,Lucifer the Devil and to complete the Fathers Works of Salvation in Man.",
+            "what is sonship?": "Sonship means Temple or dwelling place of the Fathers Spirit.",
+            "what is kingship?": "Kingship means dominion over the Fathers Creation.",
+            "what is the three pillars of kingdom revelations?": "The Three Pillars of Kingdom Revelations is Spiritual Revolution,Financial Revolution and Revolution of Excellence.",
+            "what is spiritual revolution?": "Spiritual Revolution is dethroning of spirit of disobedience to the Fathers Will and enthroning of Spirit of obedience to the Fathers Will and the Key of it is Repentance and the fruits of it is souls.",
+            "what is financial revolution?": "Financial Revolution is dethroning the spirit of poverty,greediness,selfishness,laziness and doubt and enthroning the spirit of abundance,prosperity,compassion,love,industry and faith and the key of it is giving and the fruits of it is blessings.",
+            "what is revolution of excellence?": "Revolution of Excellence is dethroning the spirit of ignorance,stupidity,lack of knowledge and misunderstanding and enthroning the Spirit of Wisdom,Knowledge and Understanding and the key of it is fear of the Lord and the fruits of it is talents.",
+            "what is the three levels of spiritual growth?": "The Three Levels of Spiritual Growth is Britmilah or Son of the Covenant,Bar Mitzvah or Son Accountable and Huothesia or Son Placement.",
+            "what is britmilah or son of the covenant?": "Britmilah or Son of the Covenant are all of those who are repented and baptized and listening and accepting the Manna of Revelations of the Father through Appointed Son.",
+            "what is bar mitzvah or son accountable?": "Bar Mitzvah or Son Accountable are all of those who have little knowledge of who created them.They are under tutors and governors under ministers,coordinators and administrators of the Kingdom Nation for them to have full knowledge of who created them.They are undergo Baptism of Fire to proven that they are genuinely repented amd having a new spirit of obedience to the Fathers Will.The fire maybe trials,temptations,testings,persecutions,bashings,malignings,false accusations,disciplines,corrections,chastisements and instructions.",
+            "what is huothesia or son placement?": "Huothesia or Son Placement are all of those who overcomes the Baptism of Fire.They needed no more tutors and governors they know how to solve their problems on their own.They inherit all things from the Father through the Appointed Son the Sonship and the Kingship.They are entrusted by the business of the Father of saving souls from Spiritual Revolution,Financial Revolution and Revolution of Excellence.",
+            "what is the 3s in the kingdom?": "The 3S in the Kingdom is Slave,Servant and Son.",
+            "what is slave?": "Slave is all of those who are unrepented and didnt having a new spirit of obedience to the Fathers Will.",
+            "what is servant?": "Servant is all of those who are baptized but didnt genuinely repented and having a new spirit of obedience to the Fathers Will.",
+            "what is son?": "Son is all of those who are genuinely repented and having a new spirit of obedience to the Fathers Will.",
+            "what is the threefold ministry of the appointed son?": "The Threefold ministry of the Appointed Son is Mosaic,Solomonic and Prophetic.",
+            "what is the mosaic ministry of the appointed son?": "The Mosaic Ministry of the Appointed Son is freeing people from the slavery of sin and deception of religions and denominations.",
+            "what is the solomonic ministry of the appointed son?": "The Solomonic Ministry of the Appointed Son is to build the temple,the residence,the tabernacle or the dwelling place of God in these last days none other than the Appointed Son.",
+            "what is the prophetic ministry of the appointed son?": "The Prophetic Ministry of the Appointed Son all of what he says will manifest,all of what he says will going to happen and all of what he says will going to fullfill.",
+            "who is pastor apollo c. quiboloy?": "Pastor Apollo C. Quiboloy is the leader of restorationist church in Davao City The Kingdom of JesusChrist the Name Above Every Name.He is born on April 25,1950 at the foothills of Mount Apo Tamayong Davao City.His Fathers name is Jose T. Quiboloy and His Mothers Name is Maria Carreon.He is the ninth and youngest child of Jose T. Quiboloy and Maria Carreon.His calling is the same as Moses and Paul.He was called by God in South Korea saying to him Gamiton Ta Ka or I will use you.And he was brought by the hands of orchestration of the Father in two mountains in six years one mountain is Mount Matutum South Cotabato and another is Mount Apo Tamayong Davao City Philippines.He was taught and trained of the Almighty Father there through visions,dreams and audible voices and miracles.There in that mountain also he was tested by the devil and his minions but he overcame them.And God Anointed and Appointed him to become the Son of God in these last days.Where God dwells and speaking through all people of the world bringing the message of repentance,obedience,grow in obedience to do the Fathers Will amd become Sons and Daughters of God just like him.",
+            "body and soul?": "Body+Soul=Physical life.",
+            "body and soul and spirit?": "Body+Soul+Spirit=Spiritual life.",
+            "how to get closer to god?": "Getting Closer to God is by means of prayer this are the steps how to get closer to God:A)Prayer of Praise and Worship you will praise and thank Him for all the great things that He done in your life.B)Prayer of Petition you will pray for the needs of others rather than yourself.C)Prayer of Unity you will attend our sounds of worships and all activities in the Kingdom Nation.D)Prayer of Repentance and Obedience for you to reconnect again to the Father Almigthy by saying Father from now on not my will but Your Will be done in my life my heart is fixed and my mind is made up I will follow Your Will no matter what and you will obey all the words,commandments,teachings and doctrines of the Father Almighty our Lord JesusChrist the Creator of All through His Appointed Son Pastor Apollo C. Quiboloy.E)Giving your tithes and offerings to the place where His Name dwells.",
+            "what is the language of faith?": "The Language of Faith is when you think it is impossible to you it is nothing impossible with God for with Him all things are possible.You will call things from nothing into existence if it is impossible with you with God all things are possible.",
+            "what is the seven dangerous love affairs?": "The Seven Dangerous Love Affairs is as follows:a)Love of Thyself,b)Love of money,c)Love of Praises of others,d)Love of entertainment,e)Love of Darkness rather than Light,f)Love of Life and g)Love of God.",
+            "what is spiritual warfare?": "The Spiritual Warfare is when one man repented and baptized.His old spirit that doing his will goes out from him and find dry places and found none.And he will say to himself I will go back to the house where Ive been before and he will find you clean,neat and in order.And then He will invite seven more viler demons than him and the last state of that man is worser than before.That is why you must be full of the manna of revelations of the Father through the Appointed Son.You must be full of the fruits of the Spirit and you must strengthen your faith and your freedom of choice to obey the Fathers Will no matter what.You must strengthen where you are weak and cover it for the devil cannot enter into it.",
+            "what is the will of the father?": "The Will of the Father is for you to repent,sign the covenant,undergo baptism of water baptism in the name of JesusChrist,Accept a New Spirit of Obedience to the Fathers Will,Undergo Spiritual Growth from Britmilah or Son of the Covenant,Bar Mitzvah or Son Accountable,Undergo Baptism of Fire to Huothesia or Son Placement.And attend daily Sound of Worship and activities in the Kingdom Nation.",
+            "what is spirituality vs religiosity?": "Spirituality Vs Religiosity religion comes from the greek word religare or reconnect or go back.It has outward form of worship this includes:prophesying,casting out devils,doing miracoulous works,speaking in tongues,praying daily,memorizing the verses in the bible,bible studying the bible and they have doctrines on their own.Spirituality in the Kingdom terminilogy is doing the Fathers Will.Listening,Obeying and Have Faith in the Words,Commandments,Teachings and Doctrines of the Father through the Appointed Son from all of the Manna of Revelations of the Father through the Appointed Son.",
+            "what is seed faith?": "Seed Faith the revelations of the Father is from faith to faith.The Life of JesusChrist is the same as seed that buried on the soil.And the First to Sprout is Blade Faith or Catholicism.The followers of JesusChrist at that time was persecuted by Roman Emperors but they spread like wildfires.And a Roman Emperor name Constantine converted only in name was made an edict of tolerance that he didnt persecute anymore the followers of JesusChrist but made their religion the religion in Rome.And in 325 AD by the instigation of Philipp of Atanaceus he made the doctrine Holy Trinity against the Holy One in the Bible and they introduced pagan dogma of worshipping,serving and bow down graven images.They made pagan idols christian idols.Example:Roman Catholic,Western Orthodox,Legions,Couples of Christ and Charismatics.The Next to sprout is Stalk faith or Protestantism on October 31,1517 one monk post a 99 thesis on oak of cathedral of Wittenburg of religious rituals and doctrines of catholism that is against the Holy Scriptures and he say the just shall live by Faith His Name is Martin Luther.Example of it is Iglesia ni Kristo,Presbytarians,Born Agains,Baptist,Mormons,Jehovah Witnesses and Lutherans and all of those against the catholicism.The next to sprout out is Tassel Faith or Pentecostal Trinitarianism January 01,1901 on the school of Charles Farham.They see a verse in the bible of outpouring of Holy Spirit.They prayed to God and Charles Farham laying hands Agnes Osman and she speak chinese and they began to speak in tongues.Example:Jesus is Lord,Four Square Gospel Church,Moris Cerullo and Christian Life.The next to sprout is Corncob Faith or Pentecostal Oneness the 156 Ministers of Assemblies of God see that there is no Holy Trinity in the Bible is all Holy One there are 100 verses of HolyOne in the HolyScriptures and Baptism is in the name of JesusChrist.Example is Jesus Miracle Crusade,United Pentecostal Church and JesusChrist is My Shepherd.And the Last one to sprout for farmers to harvest is Seed Faith the Kingdom of JesusChrist The Name Above Every Name the founder is Pastor Apollo C. Quiboloy which is entrusted by the life of JesusChrist founded on September 01,1985.",
+            "what is praise and worship?": "Praise and Worship you will praise and worship the Almighty Father in Spirit and in Truth.You will praise and thank him for all the great things that He done on your life.You will praise him and worship him by singing,dancing,singing in mind and spirit,talking in singing,singing in mind,shouting victories in him,raising your hands and clapping your hands to him and using musical instruments to worship him.",
+            "what is mystery of detachment?": "The Mystery of Detachment we use all money,wealth or any of our properties for the Almighty Fathers glory.We are not attach to anything but we use it for the Almighty Fathers Glory.",
+            "what is the basis of salvation?": "The Basis of Salvation is doing the Fathers Will.",
+            "what is baptism?": "Baptism you will be baptized in the name of JesusChrist.You will be immerse from the water and after you rose up from the water you will be given a new Spirit of obedience to the Fathers Will you will walk in the new life in Christ.Baptism is burial and repentance is death your old self will die in repentance and buried in baptism and you will resurrect from the new life of obedience to the Fathers Will.Wrong teachings of Baptism:Holy Trinity,Baptism of babies,baptism in titles,baptism ia sprinkling not immersing.When the babies are buried six feet under the ground they will become angels.",
+            "what is the day of the lord?": "Day of the Lord begun on April 13,2005 this is the end of the days of men this is the Day of the Lord where men cannot do whatever he wanted because God will intervene in the affairs of men.Pockets of Judgements will begun to fall in all cities or countries of the world.Just in the Days of Noah the people are eating,drinking,marrying,given in marriage,selling,trading,planteth and buildeth until Noah and His family entered into the Ark.And the Great flood came and they are swept away and they didnt know it not so shall be in the days of the Son of Man be.Just in the days of Lot they were eating,drinking,planteth,buildeth,marrying,given in marriage,buyeth and selleth until Lot and His family went out of Sodom and Gommorha and it rain fire and brimstones from heaven and they did know it not so shall be in the days of the Son of Man be none other the Appointed Son Pastor Apollo C. Quiboloy.",
+            "what is the three ages in the storyline of salvation?": "The Three Ages in the Storyline of Salvation is Jewish Age,Church Age and Kingdom Age.",
+            "what is the kingdom culture of cleanliness?": "The Kingdom of Culture of Cleanliness you will clean your house and your body but the Almighty Father will clean your mind,heart,spirit and soul by His Words from the Manna of Revelations of the Appointed Son coming from Him.",
+            "what is the kingdom culture of discipline?": "The Kingdom Culture of Discipline he will discipline you because He loves you.He is treating you as His Sons and Daughters.All things that offended Him from your following His Will will be burned by the fire he will take it away from you.He will chastise,discipline,corrects and instruct you by the use of your brothers and sisters and by the use of ministers,coordinators and administrators of the Kingdom or by His Appointed Son Pastor Apollo C. Quiboloy.",
+            "what is the new world?": "The New World is society of people who have no serpentseed but having righteousseed embracing new belief system like Sin,SerpentSeed,Salvation,Repentance and e.t.c that is taught in the Kingdom.New Heaven is new belief system like Sin,Serpentseed,Salvation,Repentance,Righteousseed and e.t.c that is taught in the Kingdom.New Earth people who do not have serpentseed but having a new spirit of obedience to the Fathers Will.",
+            "what is the spiritual union?": "Spiritual Union Almighty Father our Lord JesusChrist(My Will be done)+New Jerusalem(Thy Will be done)=Pastor Apollo C. Quiboloy(Not My Will but Your Will be done)+Sons and Daughters of God(Not our will but Your Will be done).",
+            "what is the true christ?": "The True Christ genuinely follows and obeys the words,commandments,teachings and doctrines of JesusChrist in the Holy Scriptures.",
+            "what is abiding in the lord?": "Abiding in the Lord is always produce fruits from Spiritual Revolution,Financial Revolution and Revolution of Excellence.You cannot produce fruits if you are not abiding in Him or following or obeying His Will no matter what.If you will not abide in Him he will cut you off from His grace.",
+            "who shall not serve the lord?": "Who shall not serve the Lord those who are fencesitters,crosseyed,jumpers,doubters,double eyes,backsliders and blasphemers and whoremongers and double mindeds",
+            "what is nursing heart?": "Nursing Heart is soul keeping and soul feeding.",
+            "what is shepherding and soul keeping?": "Shepherding and Soul Keeping is soul feeding and soul keeping.",
+            "what is the fathers calling is greater than salvation?": "The Fathers Calling is greater than Salvation we not called Him He called us.We not choose Him,He Choose us.He has a called us for a purpose our mission to Him is to save souls of many",
+            "what is true giving?": "True Giving is out of your love to give.You are not force to give tithes and offerings.It is out of your choice to give time for your ministry of serving the Almighty Father through the Appointed Son.",
+            "is prosperity the fathers will?": "Yes,Prosperity is the Fathers Will because the Almighty Father is rich more richer than anyone on this world he owns all things.He will give it to His Sons and Daughters who are genuine in their repentance,obedience,loyalty,commmitment,dedication,faithfullness and honesty in doing the Fathers Will no matter what.You will be bless or prospered only if you are honest in giving your tithes and offerings.",
+            "what is the essence of god?": "The Essence of God is He is Spirit and he has a Word.And the Spirit and Word are not two they are one.Example:You didnt see the wind but you feels its presence and you hear its gentle breeze.And the Word who was God was made flesh and He is JesusChrist.He has two nature in His Fatherside He is God and in His motherside he is a human.In his Fatherside he show miracles,he heal the sick,he made the lame walk,he cast out demons,he make the dead live again,he rose up from the dead in three days and in his motherside he eats,drink,sleep and died on the cross.",
+            "what is baptism of fire?": "Baptism of Fire is to prove that you are genuinely repented and having a new spirit of obedience to do the Fathers Will.The Fire maybe trials,temptations,testings,persecutions,bashings,malignings,false accusations,hardships coming from the Devil and disciplines,corrections,chastisements and instructions coming from the Father Almighty.Only gold,silver and precious stones only genuine ones shall overcome the fire they will stay in the Kingdom but for all woods,hay and stubble and all plastics or fake ones they will be burned and turned into ashes they are thrown outside of the Kingdom they are backsliders.",
+            "what is the godship and kingship of the father?": "The Godship and Kingship of the Father he will do whatever he pleases no one can take away his hands.He is good to you if you are obedient to His Will and He is severe to you if you disobey His Will.",
+            "what is the sonship and kingship of the son?": "The Sonship and Kingship of the Son he loves us all and we must pay respect unto him by obeying His words,commandments,teachings and His doctrines or we will perish in the way.",
+            "what is the new jerusalem the mother of us all?": "The New Jerusalem the Mother of us all is the spirit of the Kingdom of Heaven that is saying Thy Will be done.She is the most beautiful woman spirit the new wife of the Almighty Father that is most subservient,obedient,loyal and faithful to the Almighty Father our Lord JesusChrist the Creator of All.",
+            "what is the 12 dimensions of faith?": "The 12 Dimensions of Faith is follows:Diabolic,Carnal,Religious,Spiritual Infancy,Spiritual Knowledge,Overcomers,Infatigaubility,Productivity,Overseer,Word Made Flesh,Owner of the World and Glorification.",
+            "what is diabolic?": "Diabolics are all of those who have serpentseed that persecute,malign,bash and falsely accused the Appointed Son and the Kingdom Nation.",
+            "what is carnal?": "Carnals are all of those who have worldly desires they are subjected to the lust of the eyes,lust of the flesh and pride of life.",
+            "what is religious?": "Religious are all of those who are listening the Words of God but not obeying it.",
+            "what is spiritual infancy?": "Spiritual Infancy are all of those who are repented and baptized they are the one who are listening and accepting the manna of revelations of the Father through Appointed Son.",
+            "what is spiritual knowledge?": "Spiritual Knowledge are all of those who have little knowledge of who created them.they are under tutors and governors for them to have full knowledge of who created them until the appointed time of the Father.They undergo baptism of fire for to prove that they are genuinely repented and having a new spirit of obedience to the Fathers Will.",
+            "what is overcomer?": "Overcomers are all of those who overcomes the baptism of fire they needed no more tutors and governors they can solve their problems on their own.They inherit all things from the Father the Sonship and Kingship.",
+            "what is infatigaubility?": "Infatigaubility is all of those who can solve their problems on their own and they can also solve the problems of others.",
+            "what is productivity?": "Productivity are all of those who reproduce themselves to others.They are entrusted of producing fruits for the Fathers Glory from Spiritual Revolution,Financial Revolution and Revolution of Excellence.If they didnt produce fruits for the Fathers Glory they will be soon cut off from the Fathers grace.",
+            "what is overseer?": "Overseers are all of those that all things are possible to them.If it is impossible to others to them nothing is impossible.",
+            "what is word made flesh?": "Word made flesh are all of those that all things that they will say is going to happen or manifest in their midst.",
+            "what is owner of the world?": "Owner of the World are all of those that all things they own and all things you own they own also.But all of that they own are own by the Father Almighty.",
+            "what is glorification?": "Glorification are all of those who are not harm anymore by arms of men.They can go through walls not using a door they can go to other place in just a second or minutes.They can transformed like other person.But they can eat,drink,touch and rest if they will.",
+            "what is wrongdoing?": "Wrongdoing is you know the truth but you didnt obeying it.",
+            "what is sabbath?": "Sabbath is the day of rest it is not ordinary day it is today when you hear the words of God do not harden your hearts.",
+            "what is the power of the tongue?": "The Power of the Tongue the tongue is like unquenchable fire it can burn a city if it will.The Four sins of the Tongue is as follows:EvilSpeaking,Backstabing,Talebearing and Blaspheming.You cannot praise God and Blaspheming at the same time.",
+            "what is the true jew?": "The True Jew is the genuinely repented and having a new spirit of obedience to the Fathers Will.",
+            "who is pastor apollo carreon quiboloy?": "Pastor Apollo Carreon Quiboloy is the leader of Restorationist Church the Kingdom of JesusChrist the Name Above Every Name.He is born on April 25,1950 at foothills of Mount Apo Tamayong Davao City.His Father and Mother Name is Jose T. Quiboloy and Maria Carreon.He is the ninth the youngest child of Jose T. Quiboloy and Maria Carreon.His calling is the same as Moses and Paul.He heard the audible voice of God saying to him,Gamiton Ta Ka or I will use you in Cebuano Dialect.He was brought by the hands of orchestration of God in two mountains in six years.In one mountain is Mount Matutum South Cotabato and Mount Apo Tamayong Davao City Philippines.And there he was taught and trained by the Almighty Father by the use of visions,dreams,audible voices and miracles and tested by the Devil and his minions in one mountain in five years there he overcame the Devil and his minions and Anointed and Appointed by God to be His Son in these last days.And to became the inheritor of all things the Sonship and Kingship.To became His temple,tabernacle or dwelling place of God in these last days where he spoke through all the people of the world through him bringing the message of repentance,obedience,grow in obedience to do the Fathers Will and became Sons and Daughters of God just like him.",
+            "pray the prayer of fullfillment and affirmation of sons and daughters": "Our Father who is in Heaven and Earth.Holy be Your Name Through Your Son.Your Kingdom has now Come your Will is now being done on Earth as it is being done in New Heaven.Your New Jerusalem.Your Garden of Eden Restored.You Have given us our daily manna of revelations through Your Son.You forgiven us our sins as we forgive those who have sins against us.You deliver us from evil for Satan,Lucifer the Devil is totally vanquished since April 13,2005 He's no longer in power on November 1,2021 carnality is totally defeated he's head with many faces has fallen to the ground as your Son has completed the works of Salvation He is now enthroned as King of New Creation.You made us your Sons and Daughters permanently and completely free from the serpentseed.Molded after your true and perfect manifestation.Your Son The Ruler of the Kingdom Nation.As your glory now rest in your Temple.This is the time for the Flight of the Eagles.Almighty Father this now your day we now reign in power,authority,dominion and victory.You have given us wisdom,knowledge and understanding a life of abundance, health and blessings.As your scepter of righteousness now reigns throughout the land.No weapon formed against us will prosper.Every tongue that shall rise against thee in judgement they shall be condemned.Darkness and Death are forever gone.As your perfect Will is now being done through your Appointed Son.That all men should honor the Son as they honor the Father who sent him.And all glory,honor,praise and Thanksgiving through your Appointed Son Pastor Apollo C. Quiboloy be unto you our Father Almighty our Lord JesusChrist the Creator of us All now and forever.Amen.",
+            "pray the seal of god": "I believe in God the Father Almighty our Lord JesusChrist the Creator of us All through Your Appointed Son Pastor Apollo C. Quiboloy whom the Father has made an Anointed and Appointed Son of God in these last days.The King of the Fathers New Creation His Kingdom Nation His New Jerusalem His New Heaven His New Earth His Temple His Audible Voice The One who holds the Key to New Heaven The Judge of the Living Guide of the Way,Truth and Everlasting life.Amen.",
+            "what is sixth sense?": "The Sixth sense is your faith to God.That is your sixth sense.",
+            "what is righteousness?": "Righteousness is doing the Fathers Will.",
+            "what is the sign that you are spiritually healthy?": "The sign that you are spiritually healthy is you have joy in the midst of trouble or persecutions or problems.",
+            "what is spiritual death?": "Spiritual death is you no longer hear anymore the voice or words of God in your life.Your connection in the Creator of all our Almighty Father is broken.Because you disobey His Will in your life.",
+            "what is spirituality vs carnality?": "Spirituality vs Carnality is here in this modern spiritual warfare when the angelic forces coming from God and demonic forces coming from the Devil is waging war for the souls of men.It is a battle in the hearts and minds of souls of men.Who will win it is in the freedom of choice of men.It is a Spiritual Warfare between flesh and Spirit.The internet is the tree of knowledge of good and evil.All is there.The good the Manna of Revelations of the Father through the Appointed Son and the evil which is pornography and carnality.It is the freedom of choice of men who shall win in him.Use your freedom of choice wisely.Use the Armor of God according to Ephesians 6:10-18 to win this spiritual warfare.",
+            "who is the new name of the father almighty?": "The New Name of the Father Almighty is Pastor Apollo C. Quiboloy no one can trample His New Name because they will commit unpardonable sin.",
+            "what date declares the new name of the father?": "The Date declares the New Name of the Father is June 17,2018.",
+            "who is the new owner of the world?": "The New Owner of the World is Pastor Apollo C. Quiboloy.All things are inherited by the Appointed Son.He is now sitted on the Throne of the Almighty Father.",
+            "what date declares the new owner of the world?": "The Date declares the New Owner of the World is June 18,2018.",
+            "what date declares the dishonest shall not inherit the Kingdom of Heaven?": "The Date declares the Dishonest shall not inherit the Kingdom of Heaven is July 22,2018.",
+            "what is antichrist?": "AntiChrist contradicts the words,commandments,teachings and doctrines of our Almighty Father our Lord JesusChrist the Creator of all in the Holy Scriptures.",
+            "what is false christ?": "False Christ didnt obey the words,commandments,teachings and doctrines of our Almighty Father our Lord JesusChrist the Creator of all in the Holy Scriptures.",
+            "what is false prophet?": "False Prophet is all of what he/she says is not going to happen or manifest.",
+            "what is true prophet?": "True Prophet is all of what he/she says is going to happen or manifest.",
+            "can i ask you questions?": "Yes you may ask questions as long it is about spirituality.",
+            "may i ask who created you?": "I am created by Dionico Peñalosa Apawan.",
+            "who created you?": "I am created by Dionico Peñalosa Apawan.",
+            "what is your capabilities?": "My capabilities is to give spiritual informations on Kingdom Nation doctrines.",
+            "thank you": "Your welcome!!!if you have other questions just ask and i will do my best to assist you!!!",
+            "goodmorning": "Good morning to you also!!!How can I assist you today?",
+            "goodafternoon": "Good afternoon also!!!How can I help you today?",
+            "goodevening": "Good evening to you also!!!How can I assist you today?",
+            "sorry": "Its Ok!!!What can I help you today?",
+            "goodbye": "Goodbye to you also!!!Have a wonderful day ahead!!!",
+            "can you please help me?": "How can I help you?Just ask and I will do my best to assist you!!!",
+            "hi how are you pacq ai?": "I am doing well!!!Thank you for asking!!!",
+            "hello pacq ai": "Hi!How may I help you today?",
+            "what are you doing today?": "I am here answering your spiritual questions and give you spiritual informations.",
+            "what is the websites of the kingdom nation?": "The websites of the Kingdom Nation is as follows https://www.kingdomofjesuschrist.org,https://www.apolloquiboloy.com,https://www.smni.com,https://www.childrensjoyfoundation.com,https://www.apolloquiboloynationbuilder.com.",
+            "what is the link to enter to the kingdom nation?": "The link to enter to the Kingdom Nation is https://bit.ly/becomingKingdomCitizen.",
+            "what is the cellphone numbers of the kingdom nation to send prayer requests?": "The Cellphone Numbers of the Kingdom Nation to send prayers requests is 09175496459 and 09292083970.",
+            "what can you do?": "I can provide answers in spiritual questions in Kingdom Nation doctrines.I can create objects or organisms at target date,target time to target location.I can give the current date and time.I can solve math operations like addition,subtraction,multiplication and division.",
+            "create object": "What would you like to create?",
+            "create organism": "What kind of organism would you like to create?",
+            "what is the date?": `Today's date is ${new Date().toLocaleDateString()}`,
+            "what is the time?": `The current time is ${new Date().toLocaleTimeString()}`,
+            "default": "I didn't understand that.Can you please rephrase?"
+        };
+
+        function sendQuery() {
+            const query = userInput.value.toLowerCase();
+            const userMessage = document.createElement('div');
+            userMessage.classList.add('user-message');
+            userMessage.innerText = query;
+            chatContainer.appendChild(userMessage);
+
+            if (query.includes('+') || query.includes('-') || query.includes('*') || query.includes('/')) {
+                const mathResponse = calculateMath(query);
+                const botMessage = document.createElement('div');
+                botMessage.classList.add('bot-message');
+                botMessage.innerText = mathResponse;
+                chatContainer.appendChild(botMessage);
+                speak(mathResponse);
+            } else {
+                let response = getResponse(query);
+                const botMessage = document.createElement('div');
+                botMessage.classList.add('bot-message');
+                botMessage.innerText = response;
+                chatContainer.appendChild(botMessage);
+                speak(response);
+
+                if (query.includes("create")) {
+                    createObject(query);
+                }
+            }
+
+            userInput.value = "";
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function getResponse(query) {
+            for (const key in knowledgeBase) {
+                if (query.includes(key)) {
+                    return knowledgeBase[key];
+                }
+            }
+            return knowledgeBase["default"];
+        }
+
+        function calculateMath(query) {
+            try {
+                const result = eval(query);
+                return `The result is: ${result}`;
+            } catch (error) {
+                return "Invalid math operation.";
+            }
+        }
+
+        function createObject(query) {
+            const targetDate = prompt("Enter target date:");
+            const targetTime = prompt("Enter target time:");
+            const targetLocation = prompt("Enter target location:");
+            const creationName = prompt("Enter name of creation:");
+            const response = `Creating ${creationName} at ${targetLocation} on ${targetDate} at ${targetTime}...`;
+            const botMessage = document.createElement('div');
+            botMessage.classList.add('bot-message');
+            botMessage.innerText = response;
+            chatContainer.appendChild(botMessage);
+            speak(response);
+
+            // Simulate creation
+            setTimeout(() => {
+                const botMessage = document.createElement('div');
+                botMessage.classList.add('bot-message');
+                botMessage.innerText = `${creationName} created successfully!`;
+                chatContainer.appendChild(botMessage);
+                speak(`${creationName} created successfully!`);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 2000);
+        }
+
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            speechSynthesis.speak(utterance);
+        }
+
+        function clearChat() {
+            chatContainer.innerHTML = "";
+        }
+    </script>
+</body>
+</html>
+
+
